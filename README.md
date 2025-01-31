@@ -1,1 +1,1 @@
-# Food-selection-interface
+Creating a user-friendly food selection interface. This website provides the user "dine-in" or "takeaway" options. It leads the user to the main menu of the eatary. The user can choose from a wide range of options, add items to the cart and finally have the bill generated and order placed. 
