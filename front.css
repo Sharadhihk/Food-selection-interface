@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex; /* Enables Flexbox */
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    flex-direction: column;
+    height: 100vh; /* Makes the body take up the full viewport height */
+    margin: 0; /* Removes default body margins */
+    text-align: center;
+    background-image: url(https://img.freepik.com/premium-vector/fast-food-pattern-background-design_260839-12.jpg);
+    background-size: cover; 
+    background-repeat: no-repeat;
+
+}
+
+h1 {
+    font-size: 50px;
+    color: #561515;
+    margin-bottom: 20px;
+} 
+
+.button-container {
+    display: flex;
+    flex-direction: row; /* Ensures buttons appear side-by-side */
+    justify-content: center; /* Centers buttons horizontally */
+    gap: 10px; 
+}
+
+button {
+    height: 77px;
+    color: white;
+    width: 273px;
+    text-align:center;
+    font-weight: bold;
+    border: none; /* Removes the default border */
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    background-color: rgb(163, 6, 6);
+}
+

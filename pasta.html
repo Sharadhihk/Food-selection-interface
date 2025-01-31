@@ -1,0 +1,115 @@
+<body>
+    <title>Delicious Den</title>
+    <link rel="stylesheet" href="pasta.css">
+
+    <nav>
+        <a href="content.html"><button>Main menu</button></a>
+    </nav>
+
+    <h1>Pasta</h1>
+
+    <div class="pasta-container">
+        <div class="pasta-item">
+            <img src="https://grandbaby-cakes.com/wp-content/uploads/2021/03/Baked-Ziti14-scaled.jpg">
+            <h2>Spinach Lasagna<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Spinach Lasagna', 120)">Add to cart</button>
+        </div>
+        <div class="pasta-item">
+            <img src="https://cookingwithayeh.com/wp-content/uploads/2023/12/Spinach-Lasagna-SQ-12.jpg">
+            <h2>Pesto Penne Pasta<br> Rs.110 </h2>
+            <button class="btn" onclick="addToCart('Pesto Penne Pasta', 110)">Add to cart</button>
+        </div>
+        <div class="pasta-item">
+            <img src="https://bakeitwithlove.com/wp-content/uploads/2021/07/white-cheddar-mac-and-cheese-h.jpg.webp">
+            <h2>Stovetop Mac and Cheese with White Cheddar<br> Rs.190 </h2>
+            <button class="btn" onclick="addToCart('Mac and Cheese Pasta', 190)">Add to cart</button>
+        </div>
+        <div class="pasta-item">
+            <img src="https://bing.com/th?id=OSK.5b88537bb19354c21c738fc53f5a4b74">
+            <h2>Creamy Tomato Pasta> Rs.150 </h2>
+            <button class="btn" onclick="addToCart('Creamy tomato pasta', 150)">Add to cart</button>
+        </div>
+        <div class="pasta-item">
+            <img src="https://bing.com/th?id=OSK.ba2836b04d3a8814d712ad230ead5856">
+            <h2>Spaghetti Carbonara<br> Rs.170 </h2>
+            <button class="btn" onclick="addToCart('Spaghetti Carbonara', 170)">Add to cart</button>
+        </div>
+        <div class="pasta-item">
+            <img src="https://www.tasteofhome.com/wp-content/uploads/2018/01/Shrimp-Alfredo_EXPS_FT24_30092_JR_0208_1.jpg">
+            <h2>Shrimp Alfredo<br> Rs.260 </h2>
+            <button class="btn" onclick="addToCart('Shrimp Alfredo', 260)">Add to cart</button>
+        </div>
+        <div class="pasta-item">
+            <img src="https://fullofplants.com/wp-content/uploads/2019/09/Cheesy-Tikka-Masala-Pasta-Bake-vegan-indian-one-skillet-recipe-thumb-3.jpg">
+            <h2>Masala Pasta<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Masala Pasta', 120)">Add to cart</button>
+        </div>
+        <div class="pasta-item">
+            <img src="https://www.gimmesomeoven.com/wp-content/uploads/2022/05/Pasta-Alla-Gricia-Recipe-6.jpg">
+            <h2>Alla Gricia Pasta<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Alla Gricia Pasta', 120)">Add to cart</button>
+        </div>
+    </div>
+
+    <h3>Cart 🛒</h3>
+    <div id="cart"></div>
+    <h4>Total: Rs. <span id="total">0</span></h4>
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <script>
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ item, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartDiv = document.getElementById("cart");
+            let totalDiv = document.getElementById("total");
+
+            cartDiv.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((product, index) => {
+                total += product.price;
+                cartDiv.innerHTML += `<p>${product.item} - Rs.${product.price} 
+                    <button onclick="removeFromCart(${index})">❌</button></p>`;
+            });
+
+            totalDiv.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function generateBill() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let billText = "🧾 Your Bill:\n";
+            let total = 0;
+
+            cart.forEach((product) => {
+                billText += `${product.item}: Rs.${product.price}\n`;
+                total += product.price;
+            });
+
+            billText += `\nTotal: Rs.${total}`;
+            alert(billText);
+        }
+
+        window.onload = updateCart;
+    </script>
+
+</body>
+</html>

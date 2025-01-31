@@ -1,0 +1,119 @@
+<body>
+    <title>Delicious Den</title>
+    <link rel="stylesheet" href="bev.css">
+
+    <nav>
+        <a href="content.html"><button>Main menu</button></a>
+    </nav>
+
+    <h1>Pizza</h1>
+    <div class="beverage-container">
+        <div class="beverage-item">
+            <img src="https://www.foodandwine.com/thmb/Wd4lBRZz3X_8qBr69UOu2m7I2iw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/classic-cheese-pizza-FT-RECIPE0422-31a2c938fc2546c9a07b7011658cfd05.jpg" alt="Margherita">
+            <h2>Margherita<br> Rs.199 </h2>
+            <button class="btn" onclick="addToCart('Margherita', 199)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://tb-static.uber.com/prod/image-proc/processed_images/9839dcfbc5d31120cfd99d6609b17557/fb86662148be855d931b37d6c1e5fcbe.jpeg" alt="Farmhouse">
+            <h2>Farmhouse<br> Rs.279 </h2>
+            <button class="btn" onclick="addToCart('Farmhouse', 279)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://littlekitchen.in/wp-content/uploads/2024/05/onion-pizza.jpg" alt="Classic Onion">
+            <h2>Classic Onion<br> Rs.199 </h2>
+            <button class="btn" onclick="addToCart('Classic Onion', 199)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.shutterstock.com/image-photo/cheese-burst-pizza-beautiful-toppings-600nw-1403906810.jpg" alt="Veg Cheese Overload">
+            <h2>Veg Cheese Overload<br> Rs.259 </h2>
+            <button class="btn" onclick="addToCart('Veg Cheese Overload', 259)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://i0.wp.com/www.amysrecipebook.com/wp-content/uploads/2021/01/pepperonipizza-8-web.jpg?resize=1024%2C683&ssl=1" alt="Pepperoni">
+            <h2>Pepperoni<br> Rs.289 </h2>
+            <button class="btn" onclick="addToCart('Pepperoni', 289)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.mrcoconut.in/img/products/04_12_2022_14_22_978_pm.jpg" alt="Cheese n Corn">
+            <h2>Cheese n Corn<br> Rs.219 </h2>
+            <button class="btn" onclick="addToCart('Cheese N Corn', 219)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://cdn.dotpe.in/longtail/store-items/7885519/zHAJykHl.jpeg" alt="Tandoori Paneer">
+            <h2>Tandoori Paneer<br> Rs.315 </h2>
+            <button class="btn" onclick="addToCart('Tandoori Paneer', 315)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://cdn.dotpe.in/longtail/store-items/7885519/AX0Cb4c6.jpeg" alt="Tandoori Chicken">
+            <h2>Tandoori Chicken<br> Rs.375 </h2>
+            <button class="btn" onclick="addToCart('Tandoori Chicken', 375)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://recipes-secure-graphics.grocerywebsite.com/0_GraphicsRecipes/8164_4k.jpg" alt="Barbeque">
+            <h2>Barbeque<br> Rs.417 </h2>
+            <button class="btn" onclick="addToCart('Barbeque', 417)">Add to cart</button>
+        </div>
+    </div>
+
+    <h3>Cart 🛒</h3>
+    <div id="cart"></div>
+    <h4>Total: Rs. <span id="total">0</span></h4>
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <script>
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ item, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartDiv = document.getElementById("cart");
+            let totalDiv = document.getElementById("total");
+
+            cartDiv.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((product, index) => {
+                total += product.price;
+                cartDiv.innerHTML += `<p>${product.item} - Rs.${product.price} 
+                    <button onclick="removeFromCart(${index})">❌</button></p>`;
+            });
+
+            totalDiv.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function generateBill() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let billText = "🧾 Your Bill:\n";
+            let total = 0;
+
+            cart.forEach((product) => {
+                billText += `${product.item}: Rs.${product.price}\n`;
+                total += product.price;
+            });
+
+            billText += `\nTotal: Rs.${total}`;
+            alert(billText);
+        }
+
+        window.onload = updateCart;
+    </script>
+
+</body>
+</html>

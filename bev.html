@@ -1,0 +1,119 @@
+<body>
+    <title>Delicious Den</title>
+    <link rel="stylesheet" href="bev.css">
+    <nav>
+        <a href="content.html"><button>Main menu</button></a>
+    </nav>
+
+    <h1>Beverages</h1>
+    
+    <div class="beverage-container">
+        <div class="beverage-item">
+            <img src="https://www.forkinthekitchen.com/wp-content/uploads/2022/08/220629.iced_.latte_.vanilla-9009.jpg" alt="Iced Coffee">
+            <h2>Iced Coffee<br> Rs.150 </h2>
+            <button class="btn" onclick="addToCart('Iced Coffee', 150)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.orchidsandsweettea.com/wp-content/uploads/2022/03/Chocolate-Iced-Latte-3-of-6-e1647455475532.jpg" alt="Latte">
+            <h2>Latte<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Latte', 120)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.cookwithmanali.com/wp-content/uploads/2022/07/Iced-Mocha.jpg" alt="Cold Coffee">
+            <h2>Cold Coffee<br> Rs.150 </h2>
+            <button class="btn" onclick="addToCart('Cold Coffee', 150)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.mysticmonkcoffee.com/cdn/shop/articles/americano_coffee_1024x.png?v=1706611607" alt="Americano">
+            <h2>Americano<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Americano', 120)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.castironketo.net/wp-content/uploads/2023/10/is-cappuccino-espresso-keto-friendly-header-image.jpg" alt="Cappuccino">
+            <h2>Cappuccino<br> Rs.150 </h2>
+            <button class="btn" onclick="addToCart('Cappuccino', 150)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.sharmispassions.com/wp-content/uploads/2012/07/espresso-coffee-recipe04.jpg" alt="Espresso">
+            <h2>Espresso<br> Rs.100 </h2>
+            <button class="btn" onclick="addToCart('Espresso', 100)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Iced_Tea_from_flickr.jpg/800px-Iced_Tea_from_flickr.jpg" alt="Icetea">
+            <h2>Iced Tea<br> Rs.100 </h2>
+            <button class="btn" onclick="addToCart('Iced Tea', 100)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://order.classicdrinks.com/media/catalog/product/cache/62d2258b37c8e3278a1b37c898b8c1e5/4/9/495482.jpg" alt="sprite">
+            <h2>Sprite<br> Rs.70 </h2>
+            <button class="btn" onclick="addToCart('Sprite', 70)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://img.freepik.com/premium-photo/cold-coke-glass_746565-27227.jpg" alt="coke">
+            <h2>Coke<br> Rs.70 </h2>
+            <button class="btn" onclick="addToCart('Coke', 70)">Add to cart</button>
+        </div>
+    </div>
+
+    <h3>Cart 🛒</h3>
+    <div id="cart"></div>
+    <h4>Total: Rs. <span id="total">0</span></h4>
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <script>
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ item, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartDiv = document.getElementById("cart");
+            let totalDiv = document.getElementById("total");
+
+            cartDiv.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((product, index) => {
+                total += product.price;
+                cartDiv.innerHTML += `<p>${product.item} - Rs.${product.price} 
+                    <button onclick="removeFromCart(${index})">❌</button></p>`;
+            });
+
+            totalDiv.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function generateBill() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let billText = "🧾 Your Bill:\n";
+            let total = 0;
+
+            cart.forEach((product) => {
+                billText += `${product.item}: Rs.${product.price}\n`;
+                total += product.price;
+            });
+
+            billText += `\nTotal: Rs.${total}`;
+            alert(billText);
+        }
+
+        window.onload = updateCart;
+    </script>
+
+</body>
+</html>

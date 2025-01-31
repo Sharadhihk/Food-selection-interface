@@ -1,0 +1,117 @@
+<body>
+    <title>Delicious Den</title>
+    <link rel="stylesheet" href="bev.css">
+    <nav>
+        <a href="content.html"><button>Main menu</button></a>
+    </nav>
+    <h1>Burger</h1>
+    <div class="beverage-container">
+        <div class="beverage-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjxgEjyJvBg6Z8Dhm91z7mP2cMVbPR_q1okb0Qw-D1yts6-Gfq_njE9KiWhoOrXEfJB4&usqp=CAU" alt="Classic Veg">
+            <h2>Classic Veg<br> Rs.129 </h2>
+            <button class="btn" onclick="addToCart('Classic Veg Burger', 129)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrDVb4i6vi9n7ZvCbjkiizudFCaWWxDnpokA&s" alt="Classic Chicken">
+            <h2>Classic Chicken<br> Rs.129 </h2>
+            <button class="btn" onclick="addToCart('Classic Chicken', 129)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://images.immediate.co.uk/production/volatile/sites/2/2020/04/Cheeseburger-74e8cde.jpg" alt="Cheese Burger">
+            <h2>Cheese Burger<br> Rs.159 </h2>
+            <button class="btn" onclick="addToCart('Cheese Burger', 159)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiGub3KrFrkkYlhuNNmkeI14ut2AABh7YkVQ&s" alt="Veg Whooper">
+            <h2>Veg Whooper<br> Rs.159 </h2>
+            <button class="btn" onclick="addToCart('Veg Whooper', 159)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/B831/production/_130935174_whopper.jpg" alt="Chicken Whooper">
+            <h2>Chicken Whooper<br> Rs.149 </h2>
+            <button class="btn" onclick="addToCart('Chicken Whooper', 149)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.sargento.com/assets/Uploads/Recipe/Image/GreatAmericanBurger__FillWzExNzAsNTgzXQ.jpg" alt="Cheese Whooper">
+            <h2>Cheese Whooper<br> Rs.189 </h2>
+            <button class="btn" onclick="addToCart('Cheese Whooper', 189)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://www.tastingtable.com/img/gallery/heres-how-hamburgers-got-their-name/intro-1653066580.jpg" alt="Hamburger">
+            <h2>Hamburger<br> Rs.199 </h2>
+            <button class="btn" onclick="addToCart('Hamburger', 199)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/RX_THUMBNAIL/IMAGES/VENDOR/2024/10/15/e316cab4-080c-4de4-8e99-6ef653ef34f5_88224.jpg" alt="Veg Supreme">
+            <h2>Veg Supreme<br> Rs.249 </h2>
+            <button class="btn" onclick="addToCart('Veg Supreme', 249)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://c.recipeland.com/images/r/20873/1167b0d62114aa73bc34_1024.jpg" alt="Chicken Supreme">
+            <h2>Chicken Supreme<br> Rs.299 </h2>
+            <button class="btn" onclick="addToCart('Chicken Supreme', 299)">Add to cart</button>
+        </div>
+    </div>
+
+    <h3>Cart 🛒</h3>
+    <div id="cart"></div>
+    <h4>Total: Rs. <span id="total">0</span></h4>
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <script>
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ item, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartDiv = document.getElementById("cart");
+            let totalDiv = document.getElementById("total");
+
+            cartDiv.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((product, index) => {
+                total += product.price;
+                cartDiv.innerHTML += `<p>${product.item} - Rs.${product.price} 
+                    <button onclick="removeFromCart(${index})">❌</button></p>`;
+            });
+
+            totalDiv.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function generateBill() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let billText = "🧾 Your Bill:\n";
+            let total = 0;
+
+            cart.forEach((product) => {
+                billText += `${product.item}: Rs.${product.price}\n`;
+                total += product.price;
+            });
+
+            billText += `\nTotal: Rs.${total}`;
+            alert(billText);
+        }
+
+        window.onload = updateCart;
+    </script>
+
+</body>
+</html>

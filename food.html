@@ -1,0 +1,116 @@
+<body>
+    <title>Delicious Den</title>
+    <link rel="stylesheet" href="dessert.css">
+
+    <nav>
+        <a href="content.html"><button>Main menu</button></a>
+    </nav>
+
+    <h1>Desserts</h1>
+  
+
+    <div class="dessert-container">
+        <div class="dess-item">
+            <img src="https://th.bing.com/th/id/OIP.BXw7WwOpcF-_A026i6hHHwHaFj?rs=1&pid=ImgDetMain" alt="Softie">
+            <h2>Softie<br> Rs.100</h2>
+            <button class="btn" onclick="addToCart('Softie', 100)">Add to cart</button>
+        </div>
+        <div class="dess-item">
+            <img src="https://th.bing.com/th/id/OIP.6qak9ZpN3aej_pnE4PQMMQHaLG?rs=1&pid=ImgDetMain" alt="Creampie">
+            <h2>Strawberry cream pie<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Strawberry cream pie', 120)">Add to cart</button>
+        </div>
+        <div class="dess-item">
+            <img src="https://www.a-kitchen-addiction.com/wp-content/uploads/2020/10/baked-apple-fritters-vert-angle-768x1159.jpg" alt="Applefritters">
+            <h2>Apple fritter<br> Rs.170 </h2>
+            <button class="btn" onclick="addToCart('Apple fritter', 170)">Add to cart</button>
+        </div>
+        <div class="dess-item">
+            <img src="https://th.bing.com/th/id/OIP.yw3jt511l2hg-eIv6w7lZgHaHa?rs=1&pid=ImgDetMain" alt="Macaron">
+            <h2>Macaron<br> Rs.150 </h2>
+            <button class="btn" onclick="addToCart('Macaron', 150)">Add to cart</button>
+        </div>
+        <div class="dess-item">
+            <img src="https://th.bing.com/th/id/OIP.OyZeYPTrXlVR4VNhITn9yQHaLH?rs=1&pid=ImgDetMain" alt="Cookie">
+            <h2>Choco chip cookie<br> Rs.100 </h2>
+            <button class="btn" onclick="addToCart('Choco chip cookie', 100)">Add to cart</button>
+        </div>
+        <div class="dess-item">
+            <img src="https://dinnerthendessert.com/wp-content/uploads/2019/09/Apple-Pie-2-1360x889.jpg" alt="creampie">
+            <h2>Apple cream pie<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Apple cream pie', 120)">Add to cart</button>
+        </div>
+        <div class="dess-item">
+            <img src="https://www.theflavorbender.com/wp-content/uploads/2021/04/Butterscotch-mousse-3138-1367x2048.jpg" alt="mousse">
+            <h2>Butterscotch Mousse<br> Rs. 170</h2>
+            <button class="btn" onclick="addToCart('Butterscotch mousse', 170)">Add to cart</button>
+        </div>
+        <div class="dess-item">
+            <img src="https://www.tasteitpresents.com/wp-content/uploads/2019/06/lava-cake.png" alt="lavacake">
+            <h2>Lava Cake<br> Rs.65 </h2>
+            <button class="btn" onclick="addToCart('Lava Cake', 65)">Add to cart</button>
+        </div>
+    </div>
+
+    <h3>Cart 🛒</h3>
+    <div id="cart"></div>
+    <h4>Total: Rs. <span id="total">0</span></h4>
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <script>
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ item, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartDiv = document.getElementById("cart");
+            let totalDiv = document.getElementById("total");
+
+            cartDiv.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((product, index) => {
+                total += product.price;
+                cartDiv.innerHTML += `<p>${product.item} - Rs.${product.price} 
+                    <button onclick="removeFromCart(${index})">❌</button></p>`;
+            });
+
+            totalDiv.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function generateBill() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let billText = "🧾 Your Bill:\n";
+            let total = 0;
+
+            cart.forEach((product) => {
+                billText += `${product.item}: Rs.${product.price}\n`;
+                total += product.price;
+            });
+
+            billText += `\nTotal: Rs.${total}`;
+            alert(billText);
+        }
+
+        window.onload = updateCart;
+    </script>
+
+</body>
+</html>

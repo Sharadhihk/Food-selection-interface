@@ -1,0 +1,113 @@
+<body>
+    <title>Delicious Den</title>
+    <link rel="stylesheet" href="bev.css">
+    <nav>
+        <a href="content.html"><button>Main menu</button></a>
+    </nav>
+    <h1>Rolls</h1>
+    <div class="beverage-container">
+        <div class="beverage-item">
+            <img src="https://pic.warmoven.in/catalog/product/cache/44fe08413af193cea36fde0ad0cd0f58/image/1398bc6a/mixed-veg-roll.png" alt="Mixed Veg roll">
+            <h2>Mixed Veg roll<br> Rs.80 </h2>
+            <button class="btn" onclick="addToCart('Mixed Veg roll', 80)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://spicecravings.com/wp-content/uploads/2020/12/Paneer-kathi-Roll-Featured-1.jpg" alt="Paneer roll">
+            <h2>Paneer roll<br> Rs.90 </h2>
+            <button class="btn" onclick="addToCart('Paneer Roll', 90)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://th.bing.com/th/id/OIP.GcbJ7zQBtKXXM1nsN3Py5QHaE7?rs=1&pid=ImgDetMain" alt="Mushroom N Babycorn roll">
+            <h2>Mushroom N Babycorn roll<br> Rs.100 </h2>
+            <button class="btn" onclick="addToCart('Mushroom n Babycorn roll', 100)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://foodiesterminal.com/wp-content/uploads/2018/10/Egg-Chicken-roll-recipe-Kolkata-style-854x1024.jpg">
+            <h2>Pahadi chicken roll<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Pahadi chicken roll', 120)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://tse1.explicit.bing.net/th/id/OIP.fvUAUFIwOh1TnodauejopwHaE8?rs=1&pid=ImgDetMain" alt="Corn N Cheese roll">
+            <h2>Corn N Cheese roll<br> Rs.110 </h2>
+          <button class="btn" onclick="addToCart('Corn N cheese roll', 110)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://forktospoon.com/wp-content/uploads/2022/11/IMG_5811-500x500.jpg" alt="Mexican potato roll">
+            <h2>Italian potato roll<br> Rs.100 </h2>
+            <button class="btn" onclick="addToCart('Italian potato roll', 100)">Add to cart</button>
+        </div>
+        <div class="beverage-item">
+            <img src="https://th.bing.com/th/id/OIP.XPtaajaZDKgxuABEkvj7-gHaHa?w=600&h=600&rs=1&pid=ImgDetMain" alt="Mexican Chicken roll">
+            <h2>Mexican Chicken roll<br> Rs.120 </h2>
+            <button class="btn" onclick="addToCart('Mexican chicken roll', 120)">Add to cart</button>
+ </div>
+        <div class="beverage-item">
+            <img src="https://i.ytimg.com/vi/2oznEI0eeUM/maxresdefault.jpg" alt="Egg chilli roll">
+            <h2>Egg chilli roll<br> Rs.90 </h2>
+            <button class="btn" onclick="addToCart('Egg chilli roll', 90)">Add to cart</button>
+        </div>
+    </div>
+
+    <h3>Cart 🛒</h3>
+    <div id="cart"></div>
+    <h4>Total: Rs. <span id="total">0</span></h4>
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <script>
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ item, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartDiv = document.getElementById("cart");
+            let totalDiv = document.getElementById("total");
+
+            cartDiv.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((product, index) => {
+                total += product.price;
+                cartDiv.innerHTML += `<p>${product.item} - Rs.${product.price} 
+                    <button onclick="removeFromCart(${index})">❌</button></p>`;
+            });
+
+            totalDiv.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function generateBill() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let billText = "🧾 Your Bill:\n";
+            let total = 0;
+
+            cart.forEach((product) => {
+                billText += `${product.item}: Rs.${product.price}\n`;
+                total += product.price;
+            });
+
+            billText += `\nTotal: Rs.${total}`;
+            alert(billText);
+        }
+
+        window.onload = updateCart;
+    </script>
+
+</body>
+</html>
+  
